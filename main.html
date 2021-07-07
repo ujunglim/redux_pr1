@@ -53,24 +53,36 @@
         `;
       }
       function content() {
+        let state = store.getState();
+        let i = 0;
+        let aTitle, aDesc;
+
+        while(i < state.contents.length) {
+
+          if(state.contents[i].id === state.selected_id) {
+            aTitle = state.contents[i].title;
+            aDesc = state.contents[i].desc;
+            break;
+          }
+          i++;
+        }
         document.querySelector('#content').innerHTML = `
         <article>
-          <h2>HTML</h2>
-          HTML is ...
+          <h2>${aTitle}</h2>
+          ${aDesc}
         </article>
         `;
       }
       
       //======================= Redux ===============================
       function reducer(state, action) {
-        console.log(action)
         // set initial state
         if(state === undefined) {
           return {
-            selected_id: null,
+            selected_id: 1,
             contents: [
-              {id: '1', title: 'HTML', desc: 'HTML is...'},
-              {id: '2', title: 'CSS', desc: 'CSS is...'}
+              {id: 1, title: 'HTML', desc: 'HTML is...'},
+              {id: 2, title: 'CSS', desc: 'CSS is...'}
             ]
           }
         }
@@ -79,13 +91,14 @@
         if(action.type === 'SELECT') {
           newState = Object.assign({}, state, {selected_id: action.id});
         }
-        console.log(action, state, newState);
         return newState;
       }
       const store = Redux.createStore(
           reducer,
           window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    
       );
+      // when state changes, automatically call content func
+      store.subscribe(content)
 
       title();
       TOC();
