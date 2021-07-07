@@ -4,37 +4,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
   </head>
   <body>
-    <header>
-      <h1>Hello Web</h1>
-    </header>
-    <nav>
-      <ol>
-        <li><a href="1.html">HTML</a></li>
-        <li><a href="2.html">CSS</a></li>
-      </ol>
-    </nav>
-    <article>
-      <input type="button" value="Create">
-      <input type="button" value="Delete">
-      <h2>HTML</h2>
-      HTML is ...
-    </article>
+    <div id="title"></div>
+    <div id="toc"></div>
+    <div id="control"></div>
+    <div id="content"></div>
+
     <script>
-function reducer(state, action) {
-  // set initial state
-  if(state === undefined) {
-    return {
-      contents: [
-        {id: '1', title: 'HTML', desc: 'HTML is...'},
-        {id: '2', title: 'CSS', desc: 'CSS is...'}
-      ]
-    }
-  }
-}
-const store = Redux.createStore(
-    reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    
-);
+      // make modules
+      function title() {
+        document.querySelector('#title').innerHTML = `
+        <header>
+          <h1>Hello Web</h1>
+        </header>
+      `;
+      }
+      // Table Of Content
+      function TOC() {
+        document.querySelector('#toc').innerHTML = `
+          <nav>
+            <ol>
+              <li><a href="1.html">HTML</a></li>
+              <li><a href="2.html">CSS</a></li>
+            </ol>
+          </nav>
+        `;
+      }
+      function control() {
+        document.querySelector('#control').innerHTML = `
+          <input type="button" value="Create">
+          <input type="button" value="Delete">
+        `;
+      }
+      function article() {
+        document.querySelector('#content').innerHTML = `
+        <article>
+          <h2>HTML</h2>
+          HTML is ...
+        </article>
+        `;
+      }
+      
+      title();
+      TOC();
+      control();
+      article();
+   
+      function reducer(state, action) {
+        // set initial state
+        if(state === undefined) {
+          return {
+            contents: [
+              {id: '1', title: 'HTML', desc: 'HTML is...'},
+              {id: '2', title: 'CSS', desc: 'CSS is...'}
+            ]
+          }
+        }
+      }
+      const store = Redux.createStore(
+          reducer,
+          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    
+      );
     </script>
   </body>
 </html>
