@@ -20,12 +20,22 @@
       }
       // Table Of Content
       function TOC() {
+        let state = store.getState();
+        let i = 0;
+        let liTags = '';
+
+        while(i < state.contents.length) {
+          liTags = liTags + `
+            <li>
+              <a href="${state.contents.id}">${state.contents[i].title}</a>
+            </li>
+          `
+          i++;
+        }
+
         document.querySelector('#toc').innerHTML = `
           <nav>
-            <ol>
-              <li><a href="1.html">HTML</a></li>
-              <li><a href="2.html">CSS</a></li>
-            </ol>
+            <ol>${liTags}</ol>
           </nav>
         `;
       }
@@ -35,7 +45,7 @@
           <input type="button" value="Delete">
         `;
       }
-      function article() {
+      function content() {
         document.querySelector('#content').innerHTML = `
         <article>
           <h2>HTML</h2>
@@ -44,13 +54,9 @@
         `;
       }
       
-      title();
-      TOC();
-      control();
-      article();
-   
+      //======================= Redux ===============================
       function reducer(state, action) {
-        // set initial state
+              // set initial state
         if(state === undefined) {
           return {
             contents: [
@@ -64,6 +70,11 @@
           reducer,
           window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    
       );
+
+      title();
+      TOC();
+      control();
+      content();
     </script>
   </body>
 </html>
